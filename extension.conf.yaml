@@ -1,0 +1,27 @@
+extension:
+  manifest_version: 3
+  app:
+    name: "SEMD - Suspicious URL Evaluation"
+    version: "0.0.1"
+    description: "SEMD - Suspicious URL Evaluation for Malicious Detection"
+    title: "SEMD Extension"
+
+  chrome_extension:
+    permissions:
+      - "activeTab"
+      - "tabs"
+      - "storage"
+    host_permissions:
+      - "<all_urls>"
+
+  firefox_addons:
+    permissions:
+      - "activeTab"
+      - "tabs"
+      - "storage"
+    host_permissions:
+      - "<all_urls>"
+    browser_specific_settings:
+      gecko:
+        id: "semd@example.com"
+        strict_min_version: "109.0"

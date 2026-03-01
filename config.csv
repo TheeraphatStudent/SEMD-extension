@@ -1,0 +1,12 @@
+key,value,description
+refresh_interval,5000,Auto-refresh data interval in milliseconds
+popup_refresh_interval,500,Popup window refresh interval in milliseconds
+window_width,420,Popup window width in pixels
+window_height,600,Popup window height in pixels
+max_requests,1000,Maximum number of requests to store
+monitoring_enabled,true,Default monitoring state
+auto_analyze,true,Enable automatic URL analysis
+notifications,true,Enable notifications
+suspicious_patterns,"bit.ly,tinyurl,t.co,goo.gl,ow.ly,short,redirect,click,track,analytics,ads,doubleclick,googletagmanager,facebook.com/tr,google-analytics",Suspicious URL patterns (comma-separated)
+window_position_offset,20,Window position offset from screen edge
+header_update_interval,2000,Header status update interval in milliseconds
