@@ -1,190 +1,85 @@
-# SEMD Extension Development Guide
+# SEMD Extension
 
-This guide explains how to develop, build, and deploy the SEMD extension for both Chrome and Firefox.
+SEMD - Suspicious URL Evaluation for Malicious Detection Browser Extension
+
+Built with [WXT](https://wxt.dev/) framework.
 
 ## Project Structure
 
 ```
-extension/
-├── chrome_extension/         # Chrome extension source files
-│   ├── manifest.json         # Chrome manifest (v2/v3)
-├── firefox_extension/        # Firefox addon specific files
-│   └── manifest.json         # Firefox manifest
-├── app/                      # Next.js React application
-│   └── /components
-│   └── /public
-├── scripts/
-│   └── build-extension.js    # Build script for both browsers
-├── out/                      # Built content
-├── builds/                   # Distributable zip files (generated)
-├── package.json              # Dependencies and scripts
-├── tailwind.config.json
-├── tsconfig.json
-├── next.config.js
-└── postcss.config.js
+src/
+├── entrypoints/           # WXT entrypoints
+│   ├── background.ts      # Service worker (message handler)
+│   ├── content.ts         # Content script (URL monitoring, overlay)
+│   └── popup/             # Popup UI (React)
+│       ├── index.html
+│       ├── main.tsx
+│       ├── App.tsx
+│       ├── style.css
+│       ├── components/    # UI components
+│       └── views/         # View components
+├── hooks/                 # React hooks
+│   ├── useAuth.ts
+│   ├── useActiveTab.ts
+│   ├── useBrowserStorage.ts
+│   └── useCheckUrl.ts
+└── utils/                 # Shared utilities
+    ├── types.ts           # TypeScript types
+    ├── constants.ts       # Constants and labels
+    ├── storage.ts         # Browser storage wrapper
+    ├── api.service.ts     # API calls
+    ├── auth.service.ts    # Authentication
+    ├── config.service.ts  # Configuration
+    ├── history.service.ts # Scan history
+    └── overlay.ts         # Warning overlay
 ```
 
-## Setup
-
-### 1. Install Dependencies
+## Commands
 
 ```bash
+# Install dependencies
 npm install
-# or
-bun install
-```
 
-### 2. Development Workflow
-
-- Build for Chrome
-```bash
-npm run build:chrome
-```
-
-- Build for Firefox
-```bash
-npm run build:firefox
-```
-- Build Both
-```bash
-npm run build:all
-```
-
-This builds both Chrome and Firefox versions sequentially.
-
-## Installation & Testing
-
-### Chrome Installation (Development)
-
-1. Open Chrome and navigate to `chrome://extensions/`
-2. Enable **Developer mode** (toggle in top-right corner)
-3. Click **Load unpacked**
-4. Select the `chrome_extension/` folder
-5. The extension will appear in your extensions list
-
-**To reload after changes:**
-- Click the refresh icon on the extension card in `chrome://extensions/`
-
-### Firefox Installation (Development)
-
-1. Open Firefox and navigate to `about:debugging#/runtime/this-firefox`
-2. Click **Load Temporary Add-on**
-3. Select the `manifest.json` file from `dist-firefox/`
-4. The addon will appear in your Firefox extensions
-
-**To reload after changes:**
-- Click the reload icon next to the addon in `about:debugging`
-
-## Building for Distribution
-
-### Chrome Web Store
-
-...
-
-Upload to [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole)
-
-### Firefox Add-ons
-
-...
-
-**Build firefox addons**
-
-```bash
-cd ./firefox_addons
-zip -r -FS ../semd-addon.xpi .
-```
-
-Submit to [Mozilla Add-ons](https://addons.mozilla.org/)
-
-**Manifest Firefox**
-```
-{
-  "manifest_version": 3,
-  "name": "SEMD - Suspicious URL Evaluation",
-  "version": "1.0.0",
-  "description": "SEMD - Suspicious URL Evaluation for Malicious Detection Firefox Extension",
-
-  "browser_action": {
-    "default_popup": "index.html",
-    "default_title": "SEMD Extension",
-    "default_icon": {
-      "16": "icons/icon16.png",
-      "32": "icons/icon32.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
-    }
-  },
-
-  "icons": {
-    "16": "icons/icon16.png",
-    "32": "icons/icon32.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
-  },
-
-  "permissions": ["activeTab", "tabs", "storage"],
-
-  "background": {
-    "service_worker": "background.js"
-  },
-
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
-    }
-  ],
-
-  "browser_specific_settings": {
-    <!-- Mozilla's open-source web rendering engine -->
-    "gecko": {
-      "id": "th33raphat@gmail.com",
-      "strict_min_version": "42.0",
-      "strict_max_version": "50.*"
-    }
-  }
-}
-
-```
-
-### Kiwi browser
-
-...
-
-## Development Commands
-
-```bash
-# Start Next.js dev server
+# Development (Chrome)
 npm run dev
 
-# Build Next.js for production
+# Development (Firefox)
+npm run dev:firefox
+
+# Build for Chrome
 npm run build
 
-# Build Chrome extension
-npm run build:chrome
-
-# Build Firefox addon
+# Build for Firefox
 npm run build:firefox
 
-# Build both
-npm run build:all
-
-# Clean all build artifacts
-npm run clean
-
-# Lint code
-npm run lint
+# Create ZIP packages
+npm run zip
+npm run zip:firefox
 ```
 
-## Helper tools
+## Output
 
-- [Chrome extension icon generator](https://alexleybourne.github.io/chrome-extension-icon-generator/)
+- **Chrome**: `.output/chrome-mv3/` - Load as unpacked extension
+- **Firefox**: `.output/firefox-mv2/` - Load as temporary add-on
+
+## Features
+
+- **Login** - 6-digit access code authentication
+- **URL Scanning** - Real-time malicious URL detection
+- **Warning Overlay** - Full-page warning for dangerous sites
+- **Settings** - Configurable API endpoint
+- **History** - Scan history tracking
+
+## UI States
+
+1. **LOGIN** - Gold/cream themed OTP input
+2. **SAFE** - Green shield with "ปลอดภัย XX%"
+3. **DANGER** - Red shield with "อันตราย XX%"
+4. **OVERLAY** - Warning with proceed/close options
 
 ## Resources
 
+- [WXT Documentation](https://wxt.dev/)
 - [Chrome Extension Documentation](https://developer.chrome.com/docs/extensions/)
 - [Firefox WebExtensions Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
-- [Firefox mainfest addons](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json)
-- [Example firefox addons](https://github.com/mdn/webextensions-examples.git)
-- [Manifest V3 Migration Guide](https://developer.chrome.com/docs/extensions)
-- [Next.js Documentation](https://nextjs.org/docs)
+- [Chrome extension icon generator](https://alexleybourne.github.io/chrome-extension-icon-generator/)
