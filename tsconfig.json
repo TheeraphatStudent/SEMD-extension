@@ -7,15 +7,34 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "noEmit": true,
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@extension/*": [
+        "./src/extension/*"
+      ],
+      "@app/*": [
+        "./src/app/*"
+      ]
+    },
+    "types": [
+      "chrome",
+      "node"
+    ],
     "plugins": [
       {
         "name": "next"
@@ -25,11 +44,15 @@
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "scripts/**/*.ts",
     "out/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "out",
+    "chrome_extension",
+    "firefox_addons"
   ]
 }

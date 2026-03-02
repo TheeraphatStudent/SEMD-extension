@@ -1,38 +1,39 @@
 {
-  "name": "semd-chrome-extension",
+  "name": "semd-extension",
   "version": "1.0.0",
-  "description": "SEMD - Suspicious URL Evaluation for Malicious Detection Chrome Extension",
+  "description": "SEMD - Suspicious URL Evaluation for Malicious Detection Browser Extension",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:chrome": "node scripts/build-extension.js chrome",
-    "build:firefox": "node scripts/build-extension.js firefox",
+    "build:chrome": "npx tsx scripts/build-chrome.ts",
+    "build:firefox": "npx tsx scripts/build-firefox.ts",
     "build:all": "npm run build:chrome && npm run build:firefox",
+    "build:legacy": "node scripts/build-extension.js",
     "start": "next start",
     "lint": "next lint",
-    "clean": "rm -rf out dist .next builds node_modules chrome_extension/* firefox_extension/*",
-    "dev:extension": "npm run build:extension && echo 'Extension built! Load the dist/ folder in Chrome.'"
+    "clean": "rm -rf out .next",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@types/chrome": "^0.0.254",
     "next": "^14.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "sweetalert2": "^11.26.17"
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@types/archiver": "^6.0.0",
+    "@types/chrome": "^0.0.254",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "archiver": "^6.0.0",
     "autoprefixer": "^10.4.16",
-    "cpx": "^1.5.0",
+    "esbuild": "^0.20.0",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
-    "js-yaml": "^4.1.1",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
+    "tsx": "^4.7.0",
     "typescript": "^5.0.0"
   }
 }
