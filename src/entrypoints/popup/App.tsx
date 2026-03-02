@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import LoginView from './views/LoginView';
 import PopupView from './views/PopupView';
@@ -7,14 +7,21 @@ import SettingsView from './views/SettingsView';
 type ViewType = 'login' | 'popup' | 'settings';
 
 export default function App() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, checkAuthStatus } = useAuth();
   const [currentView, setCurrentView] = useState<ViewType>('popup');
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setCurrentView('popup');
+    }
+  }, [isAuthenticated]);
 
   const handleClose = () => {
     window.close();
   };
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = async () => {
+    await checkAuthStatus();
     setCurrentView('popup');
   };
 

@@ -12,6 +12,7 @@ export default defineConfig({
     version: '1.0.0',
     permissions: ['activeTab', 'tabs', 'storage', 'webNavigation'],
     host_permissions: ['<all_urls>'],
+    action: {},
   },
   autoIcons: {
     enabled: true,

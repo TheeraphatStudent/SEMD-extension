@@ -14,6 +14,36 @@ import {
 export default defineBackground(() => {
   console.log('[SEMD] Background service worker started');
 
+  let popupWindowId: number | null = null;
+
+  browser.action.onClicked.addListener(async () => {
+    if (popupWindowId !== null) {
+      try {
+        const existingWindow = await browser.windows.get(popupWindowId);
+        await browser.windows.update(existingWindow.id!, { focused: true });
+        return;
+      } catch {
+        popupWindowId = null;
+      }
+    }
+
+    const window = await browser.windows.create({
+      url: browser.runtime.getURL('popup.html'),
+      type: 'popup',
+      width: 360,
+      height: 520,
+      focused: true,
+    });
+
+    popupWindowId = window.id!;
+  });
+
+  browser.windows.onRemoved.addListener((windowId) => {
+    if (windowId === popupWindowId) {
+      popupWindowId = null;
+    }
+  });
+
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const msg = message as ExtensionMessage;
 

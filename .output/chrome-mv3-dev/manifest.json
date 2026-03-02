@@ -14,6 +14,10 @@
     "<all_urls>",
     "http://localhost/*"
   ],
+  "action": {
+    "default_title": "SEMD Extension",
+    "default_popup": "popup.html"
+  },
   "commands": {
     "wxt:reload-extension": {
       "description": "Reload the extension during development",
@@ -24,10 +28,6 @@
   },
   "background": {
     "service_worker": "background.js"
-  },
-  "action": {
-    "default_title": "SEMD Extension",
-    "default_popup": "popup.html"
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval' http://localhost:3000; object-src 'self';",

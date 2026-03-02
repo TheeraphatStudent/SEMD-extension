@@ -34,8 +34,9 @@ export default function LoginView({ onSuccess, onClose }: LoginViewProps) {
     const success = await login(accessCode);
 
     if (success) {
+      console.log('[SEMD] Login successful, calling onSuccess');
       if (onSuccess) {
-        onSuccess();
+        await onSuccess();
       }
     } else {
       setError('รหัสไม่ถูกต้อง กรุณาลองใหม่');
