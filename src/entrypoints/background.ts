@@ -21,6 +21,9 @@ export default defineBackground(() => {
 
   const pendingRequests = new Map<string, { resolve: (response: any) => void }>();
 
+  // ---------- ต้อง Malual แก้ไข
+  // browser.action.onClicked.addListener(async () => {
+
   browser.browserAction.onClicked.addListener(async () => {
     if (popupWindowId !== null) {
       try {

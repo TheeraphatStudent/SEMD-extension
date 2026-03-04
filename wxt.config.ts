@@ -13,6 +13,12 @@ export default defineConfig({
     permissions: ['activeTab', 'tabs', 'storage', 'webNavigation', 'webRequest', 'webRequestBlocking'],
     host_permissions: ['<all_urls>'],
     action: {},
+    browser_specific_settings: {
+    gecko: {
+      "id": "th33raphat@gmail.com",
+      "data_collection_permissions": { "required": ["none"] }
+    }
+  },
   },
   zip: {
     

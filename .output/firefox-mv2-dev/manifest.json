@@ -2,16 +2,27 @@
   "manifest_version": 2,
   "name": "SEMD - Suspicious URL Evaluation",
   "description": "SEMD - Suspicious URL Evaluation for Malicious Detection",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "permissions": [
     "activeTab",
     "tabs",
     "storage",
     "webNavigation",
     "webRequest",
+    "webRequestBlocking",
     "http://localhost/*",
     "<all_urls>"
   ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "th33raphat@gmail.com",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
   "commands": {
     "wxt:reload-extension": {
       "description": "Reload the extension during development",
