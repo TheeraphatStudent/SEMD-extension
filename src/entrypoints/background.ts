@@ -21,7 +21,7 @@ export default defineBackground(() => {
 
   const pendingRequests = new Map<string, { resolve: (response: any) => void }>();
 
-  browser.action.onClicked.addListener(async () => {
+  browser.browserAction.onClicked.addListener(async () => {
     if (popupWindowId !== null) {
       try {
         const existingWindow = await browser.windows.get(popupWindowId);

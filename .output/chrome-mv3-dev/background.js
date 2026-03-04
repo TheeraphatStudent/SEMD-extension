@@ -1145,7 +1145,7 @@ var background = (function() {
     console.log("[SEMD] Background service worker started");
     let popupWindowId = null;
     const pendingRequests2 = /* @__PURE__ */ new Map();
-    browser.action.onClicked.addListener(async () => {
+    browser.browserAction.onClicked.addListener(async () => {
       if (popupWindowId !== null) {
         try {
           const existingWindow = await browser.windows.get(popupWindowId);
