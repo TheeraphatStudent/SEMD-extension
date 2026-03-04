@@ -1,3 +1,6 @@
+/// <reference types="webextension-polyfill" />
+import 'webextension-polyfill';
+
 import { checkUrlWithAPI } from '@/utils/api.service';
 import { saveToHistory } from '@/utils/history.service';
 import { getConfig } from '@/utils/config.service';
@@ -15,6 +18,8 @@ export default defineBackground(() => {
   console.log('[SEMD] Background service worker started');
 
   let popupWindowId: number | null = null;
+
+  const pendingRequests = new Map<string, { resolve: (response: any) => void }>();
 
   browser.action.onClicked.addListener(async () => {
     if (popupWindowId !== null) {
@@ -61,6 +66,70 @@ export default defineBackground(() => {
     console.log('[SEMD] Extension installed');
     await storage.initialize();
   });
+
+  browser.webRequest.onBeforeRequest.addListener(
+    async (details: browser.WebRequest.OnBeforeRequestDetailsType) => {
+      if (details.type !== 'main_frame') {
+        return {};
+      }
+
+      const isAuthed = await requireAuth();
+      if (!isAuthed) {
+        return {};
+      }
+
+      const config = await getConfig();
+
+      const result = await checkUrlWithAPI(details.url, config);
+
+      if (result.isMalicious) {
+        console.log(`[SEMD] Detected malicious URL: ${details.url}, showing overlay on tab ${details.tabId}`);
+        try {
+          await browser.tabs.sendMessage(details.tabId, {
+            type: MessageType.SHOW_OVERLAY,
+            url: details.url,
+            accuracy: result.accuracy,
+            requestId: details.requestId,
+          });
+        } catch (error) {
+          console.error('[SEMD] Failed to send overlay message:', error);
+          return { cancel: true };
+        }
+
+        await saveToHistory(result);
+
+        return new Promise((resolve) => {
+          pendingRequests.set(details.requestId, { resolve });
+        });
+      }
+
+      return {};
+    },
+    { urls: ['<all_urls>'] },
+    ['blocking']
+  );
+
+  browser.webRequest.onHeadersReceived.addListener(
+    (details) => {
+      let { responseHeaders } = details;
+      if (responseHeaders) {
+        const cspHeader = responseHeaders.find(
+          (header) => header.name.toLowerCase() === 'content-security-policy'
+        );
+        if (cspHeader) {
+          cspHeader.value += " 'unsafe-hashes' sha256-IWu8eKPFpwBlPtvm+lmwBh1mAdRu4b2jd4cGC9eFA54=";
+        } else {
+          responseHeaders.push({
+            name: 'Content-Security-Policy',
+            value: "'unsafe-hashes' sha256-IWu8eKPFpwBlPtvm+lmwBh1mAdRu4b2jd4cGC9eFA54="
+          });
+        }
+      }
+      return { responseHeaders };
+    },
+    { urls: ['<all_urls>'] },
+    ['blocking', 'responseHeaders']
+  );
 });
 
 async function handleMessage(
@@ -102,6 +171,19 @@ async function handleMessage(
 
     case MessageType.LOGOUT: {
       await logout();
+      return { success: true };
+    }
+
+    case MessageType.DISMISS_OVERLAY: {
+      const pending = pendingRequests.get(message.requestId);
+      if (pending) {
+        if (message.action === 'proceed') {
+          pending.resolve({});
+        } else {
+          pending.resolve({ cancel: true });
+        }
+        pendingRequests.delete(message.requestId);
+      }
       return { success: true };
     }
 

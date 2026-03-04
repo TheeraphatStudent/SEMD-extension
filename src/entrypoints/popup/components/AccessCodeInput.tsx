@@ -7,7 +7,7 @@ interface OTPInputProps {
   disabled?: boolean;
 }
 
-export default function OTPInput({ value, onChange, disabled = false }: OTPInputProps) {
+export default function AccessCodeInput({ value, onChange, disabled = false }: OTPInputProps) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = useCallback(

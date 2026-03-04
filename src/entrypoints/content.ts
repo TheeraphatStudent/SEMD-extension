@@ -1,5 +1,8 @@
+/// <reference types="wxt/browser" />
+
 import { showOverlay, removeOverlay } from '@/utils/overlay';
-import { MessageType, type ScanResult, type MessageResponse, type CheckUrlResponse } from '@/utils/types';
+import { MessageType, type ScanResult, type MessageResponse, type CheckUrlResponse, type ShowOverlayMessage, type ExtensionMessage } from '@/utils/types';
+import { browser } from 'wxt/browser';
 
 export default defineContentScript({
   matches: ['<all_urls>'],
@@ -23,7 +26,12 @@ export default defineContentScript({
       console.log(`[SEMD] Checking URL: ${url}`);
 
       browser.runtime.sendMessage(
-        { type: MessageType.CHECK_URL, url },
+        {
+          type: MessageType.CHECK_URL,
+          payload: {
+            url: url
+          }
+        },
         (response: MessageResponse<CheckUrlResponse>) => {
           if (browser.runtime.lastError) {
             console.warn('[SEMD] Message error:', browser.runtime.lastError.message);
@@ -97,15 +105,31 @@ export default defineContentScript({
     }
 
     function listenForMessages(): void {
-      browser.runtime.onMessage.addListener((message, _sender, sendResponse) => {
-        const msg = message as { type: string; url?: string; accuracy?: number };
+      browser.runtime.onMessage.addListener((message: ExtensionMessage, _sender, sendResponse) => {
+        const msg = message as ShowOverlayMessage;
+
+        if (msg.type === MessageType.CLOSE_TAB && _sender.tab?.id) {
+          browser.tabs.remove(_sender.tab.id);
+          sendResponse({ success: true });
+          return true;
+        }
 
         if (msg.type === MessageType.SHOW_OVERLAY && msg.url) {
           showOverlay({
             url: msg.url,
             accuracy: msg.accuracy || 0,
-            onProceed: () => removeOverlay(),
-            onClose: () => window.close(),
+            onProceed: () => {
+              browser.runtime.sendMessage({ type: MessageType.DISMISS_OVERLAY, action: 'proceed', requestId: msg.requestId });
+              removeOverlay();
+            },
+            onClose: () => {
+              browser.runtime.sendMessage({ type: MessageType.DISMISS_OVERLAY, action: 'close', requestId: msg.requestId });
+              browser.tabs.query({ active: true, currentWindow: true }).then(tabs => {
+                if (tabs[0]) {
+                  browser.tabs.remove(tabs[0].id);
+                }
+              });
+            },
           });
           sendResponse({ success: true });
         }

@@ -6,6 +6,7 @@ export const MessageType = {
   GET_AUTH_STATUS: 'GET_AUTH_STATUS',
   VALIDATE_ACCESS_CODE: 'VALIDATE_ACCESS_CODE',
   LOGOUT: 'LOGOUT',
+  CLOSE_TAB: 'CLOSE_TAB',
 } as const;
 
 export type MessageTypeKey = keyof typeof MessageType;
@@ -34,11 +35,13 @@ export interface ShowOverlayMessage {
   type: typeof MessageType.SHOW_OVERLAY;
   url: string;
   accuracy: number;
+  requestId: string;
 }
 
 export interface DismissOverlayMessage {
   type: typeof MessageType.DISMISS_OVERLAY;
   action: 'proceed' | 'close';
+  requestId: string;
 }
 
 export interface GetAuthStatusMessage {

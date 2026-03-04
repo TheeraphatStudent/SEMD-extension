@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
+import { useCloseTabs } from '@/hooks/useCloseTabs';
 import LoginView from './views/LoginView';
 import PopupView from './views/PopupView';
 import SettingsView from './views/SettingsView';
@@ -8,6 +9,7 @@ type ViewType = 'login' | 'popup' | 'settings';
 
 export default function App() {
   const { isAuthenticated, isLoading, checkAuthStatus } = useAuth();
+  const { closeTab } = useCloseTabs();
   const [currentView, setCurrentView] = useState<ViewType>('popup');
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export default function App() {
   }, [isAuthenticated]);
 
   const handleClose = () => {
-    window.close();
+    closeTab();
   };
 
   const handleLoginSuccess = async () => {

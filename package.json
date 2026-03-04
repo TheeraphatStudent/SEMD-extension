@@ -14,8 +14,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@types/webextension-polyfill": "^0.12.5",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "webextension-polyfill": "^0.12.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

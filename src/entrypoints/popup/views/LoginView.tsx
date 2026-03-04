@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PopupBase from '../components/PopupBase';
-import OTPInput from '../components/OTPInput';
+import OTPInput from '../components/AccessCodeInput';
 import { useAuth } from '@/hooks/useAuth';
-import { THAI_LABELS, ACCESS_CODE_LENGTH } from '@/utils/constants';
+import { useCloseTabs } from '@/hooks/useCloseTabs';
+import { LABELS, ACCESS_CODE_LENGTH } from '@/utils/constants';
 
 interface LoginViewProps {
   onSuccess?: () => void;
@@ -10,15 +11,16 @@ interface LoginViewProps {
 }
 
 export default function LoginView({ onSuccess, onClose }: LoginViewProps) {
+  const { login, isLoading } = useAuth();
+  const { closeTab } = useCloseTabs();
   const [code, setCode] = useState<string[]>(Array(ACCESS_CODE_LENGTH).fill(''));
   const [error, setError] = useState<string | null>(null);
-  const { login, isLoading } = useAuth();
 
   const handleClose = () => {
     if (onClose) {
       onClose();
     } else {
-      window.close();
+      closeTab();
     }
   };
 
@@ -44,9 +46,9 @@ export default function LoginView({ onSuccess, onClose }: LoginViewProps) {
   };
 
   return (
-    <PopupBase title={THAI_LABELS.LOGIN_TITLE} variant="default" onClose={handleClose}>
+    <PopupBase title={LABELS.LOGIN_TITLE} variant="default" onClose={handleClose}>
       <p style={{ color: '#666', fontSize: '14px', marginBottom: '20px', textAlign: 'center' }}>
-        {THAI_LABELS.LOGIN_PROMPT}
+        {LABELS.LOGIN_PROMPT}
       </p>
 
       <div style={{ marginBottom: '24px' }}>
@@ -75,7 +77,7 @@ export default function LoginView({ onSuccess, onClose }: LoginViewProps) {
           transition: 'background 0.2s',
         }}
       >
-        {isLoading ? 'กำลังตรวจสอบ...' : THAI_LABELS.LOGIN_BUTTON}
+        {isLoading ? 'กำลังตรวจสอบ...' : LABELS.LOGIN_BUTTON}
       </button>
     </PopupBase>
   );

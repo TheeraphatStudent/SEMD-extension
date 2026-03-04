@@ -22,10 +22,11 @@ declare module '#imports' {
   export { default as useAuth, UseAuthResult } from '../src/hooks/useAuth';
   export { default as useBrowserStorage, useBrowserStorageMultiple } from '../src/hooks/useBrowserStorage';
   export { default as useCheckUrl, UseCheckUrlResult } from '../src/hooks/useCheckUrl';
+  export { useCloseTabs } from '../src/hooks/useCloseTabs';
   export { checkUrlWithAPI } from '../src/utils/api.service';
   export { getAuthStatus, validateAccessCode, logout, requireAuth, AuthStatus } from '../src/utils/auth.service';
   export { getConfig, setConfig, resetConfig } from '../src/utils/config.service';
-  export { DEFAULT_API_ENDPOINT, EXTENSION_NAME, MAX_HISTORY_SIZE, ACCESS_CODE_LENGTH, OVERLAY_ID, THAI_LABELS, COLORS } from '../src/utils/constants';
+  export { DEFAULT_API_ENDPOINT, EXTENSION_NAME, MAX_HISTORY_SIZE, ACCESS_CODE_LENGTH, OVERLAY_ID, LABELS, COLORS } from '../src/utils/constants';
   export { saveToHistory, getHistory, clearHistory, removeFromHistory } from '../src/utils/history.service';
   export { createOverlay, showOverlay, removeOverlay, isOverlayVisible, OverlayOptions } from '../src/utils/overlay';
   export { storage } from '../src/utils/storage';

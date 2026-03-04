@@ -70,12 +70,6 @@ npm run zip:firefox
 - **Settings** - Configurable API endpoint
 - **History** - Scan history tracking
 
-## UI States
-
-1. **LOGIN** - Gold/cream themed OTP input
-2. **SAFE** - Green shield with "ปลอดภัย XX%"
-3. **DANGER** - Red shield with "อันตราย XX%"
-4. **OVERLAY** - Warning with proceed/close options
 
 ## Resources
 

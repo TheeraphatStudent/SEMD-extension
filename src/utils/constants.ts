@@ -1,10 +1,10 @@
-export const DEFAULT_API_ENDPOINT = 'http://localhost:8000/api/v1/predict/predict';
+export const DEFAULT_API_ENDPOINT = 'http://localhost:8000/api/v1/predict';
 export const EXTENSION_NAME = 'SEMD';
 export const MAX_HISTORY_SIZE = 100;
 export const ACCESS_CODE_LENGTH = 6;
 export const OVERLAY_ID = 'semd-warning-overlay';
 
-export const THAI_LABELS = {
+export const LABELS = {
   LOGIN_TITLE: 'Login',
   LOGIN_PROMPT: 'กรอก Access code จากเว็บไซต์:',
   LOGIN_BUTTON: 'เข้าใช้งาน',

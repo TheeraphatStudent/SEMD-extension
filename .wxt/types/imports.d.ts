@@ -8,11 +8,11 @@ declare global {
   const DEFAULT_STORAGE: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/types').DEFAULT_STORAGE
   const EXTENSION_NAME: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/constants').EXTENSION_NAME
   const InvalidMatchPattern: typeof import('wxt/utils/match-patterns').InvalidMatchPattern
+  const LABELS: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/constants').LABELS
   const MAX_HISTORY_SIZE: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/constants').MAX_HISTORY_SIZE
   const MatchPattern: typeof import('wxt/utils/match-patterns').MatchPattern
   const MessageType: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/types').MessageType
   const OVERLAY_ID: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/constants').OVERLAY_ID
-  const THAI_LABELS: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/constants').THAI_LABELS
   const browser: typeof import('wxt/browser').browser
   const checkUrlWithAPI: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/api.service').checkUrlWithAPI
   const clearHistory: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/utils/history.service').clearHistory
@@ -48,6 +48,7 @@ declare global {
   const useBrowserStorageMultiple: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/hooks/useBrowserStorage').useBrowserStorageMultiple
   const useCallback: typeof import('react').useCallback
   const useCheckUrl: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/hooks/useCheckUrl').default
+  const useCloseTabs: typeof import('C:/Users/th33r/Desktop/Project/final_project/SEMD/semd-extension/src/hooks/useCloseTabs').useCloseTabs
   const useContext: typeof import('react').useContext
   const useEffect: typeof import('react').useEffect
   const useMemo: typeof import('react').useMemo

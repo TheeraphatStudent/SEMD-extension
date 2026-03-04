@@ -40,8 +40,8 @@ export async function checkUrlWithAPI(url: string, config: ApiConfig): Promise<S
 
     return {
       url,
-      isMalicious: false,
-      accuracy: 0,
+      isMalicious: true,
+      accuracy: 80,
       suggested: 'error',
       timestamp: new Date().toISOString(),
       error: errorMessage,

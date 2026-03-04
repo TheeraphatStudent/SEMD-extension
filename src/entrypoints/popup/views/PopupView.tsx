@@ -3,7 +3,8 @@ import PopupBase from '../components/PopupBase';
 import ShieldIcon from '../components/ShieldIcon';
 import { useCheckUrl } from '@/hooks/useCheckUrl';
 import { useActiveTab } from '@/hooks/useActiveTab';
-import { THAI_LABELS } from '@/utils/constants';
+import { useCloseTabs } from '@/hooks/useCloseTabs';
+import { LABELS } from '@/utils/constants';
 
 interface PopupViewProps {
   onClose?: () => void;
@@ -13,6 +14,7 @@ interface PopupViewProps {
 export default function PopupView({ onClose, onSettings }: PopupViewProps) {
   const [activeTab, , tabLoading] = useActiveTab();
   const { scanResult, isLoading, error, checkUrl } = useCheckUrl();
+  const { closeTab } = useCloseTabs();
 
   useEffect(() => {
     if (activeTab.url && !tabLoading) {
@@ -24,7 +26,7 @@ export default function PopupView({ onClose, onSettings }: PopupViewProps) {
     if (onClose) {
       onClose();
     } else {
-      window.close();
+      closeTab();
     }
   };
 
@@ -35,9 +37,9 @@ export default function PopupView({ onClose, onSettings }: PopupViewProps) {
   };
 
   const isSafe = scanResult ? !scanResult.isMalicious : true;
-  const accuracy = scanResult ? Math.round(scanResult.accuracy * 100) : 0;
+  const accuracy = scanResult ? scanResult.accuracy.toFixed(2) : 0;
   const variant = isSafe ? 'safe' : 'danger';
-  const statusText = isSafe ? THAI_LABELS.SAFE : THAI_LABELS.DANGER;
+  const statusText = isSafe ? LABELS.SAFE : LABELS.DANGER;
   const statusColor = isSafe ? '#4CAF50' : '#F44336';
 
   if (isLoading || tabLoading) {

@@ -57,7 +57,7 @@
     "StorageItemKey": true,
     "StorageKey": true,
     "StorageSchema": true,
-    "THAI_LABELS": true,
+    "LABELS": true,
     "UrlResultMessage": true,
     "UseAuthResult": true,
     "UseCheckUrlResult": true,

@@ -1,4 +1,4 @@
-import { OVERLAY_ID, THAI_LABELS, COLORS } from './constants';
+import { OVERLAY_ID, LABELS, COLORS } from './constants';
 
 export interface OverlayOptions {
   url: string;
@@ -56,7 +56,7 @@ export function createOverlay(options: OverlayOptions): HTMLElement {
           color: #333;
           margin: 0 0 12px 0;
           font-weight: 500;
-        ">${THAI_LABELS.OVERLAY_QUESTION}</p>
+        ">${LABELS.OVERLAY_QUESTION}</p>
 
         <p style="
           font-size: 14px;
@@ -70,7 +70,7 @@ export function createOverlay(options: OverlayOptions): HTMLElement {
           font-size: 12px;
           color: #666;
           margin: 0 0 24px 0;
-        ">ความแม่นยำ: ${(accuracy * 100).toFixed(1)}%</p>
+        ">ความแม่นยำ: ${(accuracy.toFixed(2))}%</p>
 
         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
           <button id="semd-overlay-proceed" style="
@@ -83,7 +83,7 @@ export function createOverlay(options: OverlayOptions): HTMLElement {
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
-          ">${THAI_LABELS.OVERLAY_PROCEED}</button>
+          ">${LABELS.OVERLAY_PROCEED}</button>
 
           <button id="semd-overlay-close" style="
             background: ${COLORS.SAFE_GREEN};
@@ -95,7 +95,7 @@ export function createOverlay(options: OverlayOptions): HTMLElement {
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
-          ">${THAI_LABELS.OVERLAY_CLOSE}</button>
+          ">${LABELS.OVERLAY_CLOSE}</button>
         </div>
       </div>
     </div>

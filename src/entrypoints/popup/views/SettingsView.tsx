@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import PopupBase from '../components/PopupBase';
 import { useBrowserStorageMultiple } from '@/hooks/useBrowserStorage';
-import { THAI_LABELS, DEFAULT_API_ENDPOINT } from '@/utils/constants';
+import { useCloseTabs } from '@/hooks/useCloseTabs';
+import PopupBase from '../components/PopupBase';
+import { LABELS, DEFAULT_API_ENDPOINT } from '@/utils/constants';
 
 interface SettingsViewProps {
   onClose?: () => void;
@@ -10,6 +11,7 @@ interface SettingsViewProps {
 
 export default function SettingsView({ onClose, onBack }: SettingsViewProps) {
   const [storage, updateStorage, isLoading] = useBrowserStorageMultiple(['apiEndpoint', 'apiKey']);
+  const { closeTab } = useCloseTabs();
   const [apiEndpoint, setApiEndpoint] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [saved, setSaved] = useState(false);
@@ -27,7 +29,7 @@ export default function SettingsView({ onClose, onBack }: SettingsViewProps) {
     } else if (onClose) {
       onClose();
     } else {
-      window.close();
+      closeTab();
     }
   };
 
@@ -71,7 +73,7 @@ export default function SettingsView({ onClose, onBack }: SettingsViewProps) {
   };
 
   return (
-    <PopupBase title={THAI_LABELS.SETTINGS_TITLE} variant="default" onClose={handleClose}>
+    <PopupBase title={LABELS.SETTINGS_TITLE} variant="default" onClose={handleClose}>
       <div style={{ width: '100%' }}>
         <label style={labelStyle}>API Endpoint</label>
         <input
