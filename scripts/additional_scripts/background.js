@@ -1,6 +1,6 @@
 console.log("[SEMD] Background service worker started");
 
-const API_ENDPOINT = "http://localhost:8000/api/v1/predict/predict";
+const API_ENDPOINT = "http://server:8000/api/v1/predict/predict";
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "CHECK_URL") {
