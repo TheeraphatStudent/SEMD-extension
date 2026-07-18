@@ -5,6 +5,10 @@ extension:
     version: "0.0.1"
     description: "SEMD - Suspicious URL Evaluation for Malicious Detection"
     title: "SEMD Extension"
+  api:
+    default_base_url: ""
+    predict_path: "/api/v1/predict/predict"
+    access_code_validation_path: ""
 
   chrome_extension:
     permissions:
