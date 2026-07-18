@@ -7,3 +7,9 @@ dist-firefox/
 builds/
 .next/
 out/
+
+.agents
+.codex
+skills-lock.json
+
+dist

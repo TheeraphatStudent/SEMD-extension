@@ -4,22 +4,25 @@
   "description": "SEMD - Suspicious URL Evaluation for Malicious Detection Chrome Extension",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "build:chrome": "node scripts/build-extension.js chrome",
-    "build:firefox": "node scripts/build-extension.js firefox",
-    "build:all": "npm run build:chrome && npm run build:firefox",
-    "start": "next start",
-    "lint": "next lint",
-    "clean": "rm -rf out dist .next builds node_modules chrome_extension/* firefox_extension/*",
-    "dev:extension": "npm run build:extension && echo 'Extension built! Load the dist/ folder in Chrome.'"
+    "dev": "bunx next dev",
+    "build:popup": "bunx next build",
+    "build:chrome": "bun scripts/build-extension.ts chrome",
+    "build:firefox": "bun scripts/build-extension.ts firefox",
+    "build": "bun run build:chrome && bun run build:firefox",
+    "build:all": "bun run build",
+    "package:chrome": "bun scripts/build-extension.ts chrome --package",
+    "package:firefox": "bun scripts/build-extension.ts firefox --package",
+    "start": "bunx next start",
+    "lint": "bunx next lint",
+    "typecheck": "bunx tsc --noEmit",
+    "test": "bun test",
+    "clean": "rm -rf .next dist out export/semd-chrome.zip export/semd-addon.xpi export/semd-addon.zip"
   },
   "dependencies": {
     "@types/chrome": "^0.0.254",
     "next": "^14.0.0",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "sweetalert2": "^11.26.17"
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
