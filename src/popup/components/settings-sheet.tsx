@@ -1,8 +1,19 @@
-import type { CheckMode, ExtensionSnapshot } from "../../extension/shared/types";
+import { AccessCodeCard } from "./access-code-card";
+import type {
+  AccessCodeValidationStatus,
+  CheckMode,
+  ExtensionSnapshot,
+} from "../../extension/shared/types";
 
 type SettingsSheetProps = {
   snapshot: ExtensionSnapshot;
   maskedAccessCode: string;
+  accessCodeInput: string;
+  onAccessCodeChange(value: string): void;
+  onConnectAccessCode(): void;
+  accessCodeStatus: AccessCodeValidationStatus | null;
+  accessCodeMessage: string | null;
+  isPending: boolean;
   onToggleEnabled(enabled: boolean): void;
   onCheckModeChange(checkMode: CheckMode): void;
   onDisconnectAccessCode(): void;
@@ -11,6 +22,12 @@ type SettingsSheetProps = {
 export function SettingsSheet({
   snapshot,
   maskedAccessCode,
+  accessCodeInput,
+  onAccessCodeChange,
+  onConnectAccessCode,
+  accessCodeStatus,
+  accessCodeMessage,
+  isPending,
   onToggleEnabled,
   onCheckModeChange,
   onDisconnectAccessCode,
@@ -56,18 +73,29 @@ export function SettingsSheet({
 
       <div className="stack-sm">
         <h3>Access Code</h3>
-        <div className="settings-row">
-          <div>
-            <p className="muted">
-              {snapshot.accessCodeConfigured ? `Connected: ${maskedAccessCode}` : "No Access Code connected"}
-            </p>
-          </div>
-          {snapshot.accessCodeConfigured ? (
+        <p className="muted">
+          Optional. Connecting an Access Code attributes checks to your SEMD account and raises usage
+          limits -- it is not required to check a URL.
+        </p>
+        {snapshot.accessCodeConfigured ? (
+          <div className="settings-row">
+            <div>
+              <p className="muted">Connected: {maskedAccessCode}</p>
+            </div>
             <button className="button button-secondary" onClick={onDisconnectAccessCode}>
               Disconnect
             </button>
-          ) : null}
-        </div>
+          </div>
+        ) : (
+          <AccessCodeCard
+            accessCodeInput={accessCodeInput}
+            onAccessCodeChange={onAccessCodeChange}
+            onConnect={onConnectAccessCode}
+            accessCodeStatus={accessCodeStatus}
+            accessCodeMessage={accessCodeMessage}
+            isPending={isPending}
+          />
+        )}
       </div>
 
       <div className="stack-xs">

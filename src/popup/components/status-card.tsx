@@ -64,7 +64,7 @@ function getStatusTitle(status: ExtensionSnapshot["evaluation"]["status"]) {
     case "offline":
       return "Offline";
     case "unauthorized":
-      return "Access Code required";
+      return "Access Code rejected";
     case "error":
       return "Verification failed";
     case "unknown":
@@ -86,7 +86,7 @@ function getStatusMessage(status: ExtensionSnapshot["evaluation"]["status"]) {
     case "offline":
       return "SEMD could not contact the backend while you are offline.";
     case "unauthorized":
-      return "Connect a valid Access Code before running checks.";
+      return "Your Access Code was rejected or has expired. Reconnect it in settings.";
     case "error":
       return "The website was not confirmed safe. Retry after checking connectivity and settings.";
     case "unknown":

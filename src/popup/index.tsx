@@ -1,6 +1,5 @@
 "use client";
 
-import { AccessCodeCard } from "./components/access-code-card";
 import { PopupShell } from "./components/popup-shell";
 import { SettingsSheet } from "./components/settings-sheet";
 import { StatusCard } from "./components/status-card";
@@ -37,33 +36,24 @@ export function PopupApp() {
 
   return (
     <PopupShell
-      title={snapshot.accessCodeConfigured ? "Website protection" : "Connect SEMD"}
-      subtitle={
-        snapshot.accessCodeConfigured
-          ? "Live status for the current website and your extension settings."
-          : "Use an Access Code from the SEMD web application to enable checks."
-      }
+      title="Website protection"
+      subtitle="Live status for the current website and your extension settings."
       actions={
-        snapshot.accessCodeConfigured ? (
-          <button className="icon-button" onClick={() => setPanel(panel === "main" ? "settings" : "main")}>
-            {panel === "main" ? "Settings" : "Back"}
-          </button>
-        ) : null
+        <button className="icon-button" onClick={() => setPanel(panel === "main" ? "settings" : "main")}>
+          {panel === "main" ? "Settings" : "Back"}
+        </button>
       }
     >
-      {!snapshot.accessCodeConfigured ? (
-        <AccessCodeCard
-          accessCodeInput={accessCodeInput}
-          onAccessCodeChange={setAccessCodeInput}
-          onConnect={handleConnectAccessCode}
-          accessCodeStatus={accessCodeStatus}
-          accessCodeMessage={accessCodeMessage}
-          isPending={isPending}
-        />
-      ) : panel === "settings" ? (
+      {panel === "settings" ? (
         <SettingsSheet
           snapshot={snapshot}
           maskedAccessCode={maskedAccessCode}
+          accessCodeInput={accessCodeInput}
+          onAccessCodeChange={setAccessCodeInput}
+          onConnectAccessCode={handleConnectAccessCode}
+          accessCodeStatus={accessCodeStatus}
+          accessCodeMessage={accessCodeMessage}
+          isPending={isPending}
           onToggleEnabled={handleToggleEnabled}
           onCheckModeChange={handleCheckModeChange}
           onDisconnectAccessCode={handleDisconnectAccessCode}

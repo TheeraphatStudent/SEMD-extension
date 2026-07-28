@@ -27,7 +27,8 @@ export function AccessCodeCard({
         <div className="stack-xs">
           <h2>Connect your Access Code</h2>
           <p className="muted">
-            Get the code from the SEMD web application, then connect it here to enable live URL verification.
+            Get the code from the SEMD web application, then connect it here to attribute your checks to your
+            account and raise usage limits.
           </p>
         </div>
 
