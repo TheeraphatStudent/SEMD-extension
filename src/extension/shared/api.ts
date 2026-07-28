@@ -42,10 +42,6 @@ export async function evaluateUrlWithApi(
   const config = getRuntimeConfig();
   const apiUrl = buildUrl(settings.apiBaseUrl ?? config.defaultApiBaseUrl, config.predictPath);
 
-  if (!settings.accessCode) {
-    return mapErrorToEvaluation(url, "missing_access_code", "Access Code is required.", trigger);
-  }
-
   if (!apiUrl) {
     return mapErrorToEvaluation(
       url,
@@ -55,13 +51,20 @@ export async function evaluateUrlWithApi(
     );
   }
 
+  // No login/Access Code required to check a URL: /prediction/predict accepts
+  // anonymous calls. An Access Code is sent when configured (attributes the
+  // call, raises usage limits), but its absence -- or the backend rejecting
+  // it as expired/invalid -- must degrade to an anonymous call, not a
+  // hard failure.
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (settings.accessCode) {
+    headers["x-api-key"] = settings.accessCode;
+  }
+
   try {
     const response = await fetchWithTimeout(apiUrl, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": settings.accessCode,
-      },
+      headers,
       body: JSON.stringify({ url }),
     });
 
