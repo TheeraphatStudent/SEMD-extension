@@ -1,0 +1,40 @@
+name: Extension Unit Tests
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - master
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  workflow_dispatch: {}
+
+concurrency:
+  group: extension-unit-tests-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    name: Run bun test
+    runs-on: [self-hosted, Linux, X64]
+    timeout-minutes: 15
+    steps:
+      - name: Check out the pull request head commit
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.1
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run test suite
+        run: bun test
