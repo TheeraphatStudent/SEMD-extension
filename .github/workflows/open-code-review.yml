@@ -154,10 +154,6 @@ jobs:
           review_error="$RUNNER_TEMP/open-code-review-error.log"
           echo 'OCR_REVIEW_STARTED=true' >> "$GITHUB_ENV"
           if ! ocr review --from "$BASE_SHA" --to "$HEAD_SHA" --audience agent >"$review_output" 2>"$review_error"; then
-            echo "### DEBUG: raw ocr stderr (temporary diagnostic, remove before merge)" >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
-            sed 's/[A-Za-z0-9_-]\{20,\}/[REDACTED-LONG-TOKEN]/g' "$review_error" | tail -c 4000 >> "$GITHUB_STEP_SUMMARY"
-            echo '```' >> "$GITHUB_STEP_SUMMARY"
             if grep -Eqi '(unauthori[sz]ed|authentication|invalid.*(api.?key|token)|401)' "$review_error"; then
               echo '::error::OpenRouter authentication failed during OpenCodeReview.'
             elif grep -Eqi '(rate.?limit|quota|too many requests|429)' "$review_error"; then
